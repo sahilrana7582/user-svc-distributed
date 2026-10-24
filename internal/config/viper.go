@@ -15,6 +15,9 @@ func LoadViper() (*Config, error) {
 	fs := pflag.NewFlagSet("user-svc-flags", pflag.ContinueOnError)
 	fs.SortFlags = false
 
+	// App
+	fs.String("name", "user-svc", "service name")
+
 	// Logging level
 	fs.String("level", "info", "log level debug, info, warn, error, fatal or panic")
 
@@ -78,11 +81,29 @@ func LoadViper() (*Config, error) {
 
 	os.Setenv("NATS_URL", viper.GetString("nats-url"))
 
+	cfg := &Config{
+		App: &Application{
+			Name:     viper.GetString("name"),
+			Host:     viper.GetString("host"),
+			Port:     viper.GetString("port"),
+			NatsUrl:  viper.GetString("nats-url"),
+			LogLevel: viper.GetString("level"),
+		},
+		Db: &Database{
+			Host:     viper.GetString("db-host"),
+			Port:     viper.GetString("db-port"),
+			User:     viper.GetString("db-user"),
+			Name:     viper.GetString("db-name"),
+			Password: viper.GetString("db-password"),
+			SSLMode:  viper.GetString("db-ssl-mode"),
+		},
+	}
+
 	if viper.GetBool("dump") {
 		printConfig(viper.AllSettings())
 	}
 
-	return nil, nil
+	return cfg, nil
 }
 
 func sensitiveConfigKey(k string) bool {

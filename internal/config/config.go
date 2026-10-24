@@ -6,9 +6,11 @@ type Config struct {
 }
 
 type Application struct {
-	Name    string
-	Port    string
-	NatsUrl string
+	Name     string
+	Host     string
+	Port     string
+	NatsUrl  string
+	LogLevel string
 }
 
 type Database struct {
