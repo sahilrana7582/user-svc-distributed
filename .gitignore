@@ -1,0 +1,9 @@
+# Local secrets
+.env
+.env.*
+!.env.example
+
+# Local certificates and private keys
+*.pem
+*.key
+secrets/
